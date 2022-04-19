@@ -1,6 +1,8 @@
 package kg.alatoo.springwebapp.controllers;
 
+import kg.alatoo.springwebapp.domain.Author;
 import kg.alatoo.springwebapp.domain.Book;
+import kg.alatoo.springwebapp.repositories.AuthorRepository;
 import kg.alatoo.springwebapp.repositories.BookRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    public MainController(BookRepository bookRepository) {
+    public MainController(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     //    @RequestMapping(method = RequestMethod.GET)
@@ -34,4 +38,15 @@ public class MainController {
 
         return "Book added: " + databaseBook.toString();
     }
+
+    @GetMapping("books")
+    public Iterable<Book> getBooks() {
+        return bookRepository.findAll();
+    }
+
+    @GetMapping("authors")
+    public Iterable<Author> getAuthors() {
+        return authorRepository.findAll();
+    }
+
 }
