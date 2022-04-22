@@ -2,18 +2,16 @@ package kg.alatoo.springwebapp.bootstrap;
 
 import kg.alatoo.springwebapp.domain.Author;
 import kg.alatoo.springwebapp.domain.Book;
-import kg.alatoo.springwebapp.repositories.AuthorRepository;
-import kg.alatoo.springwebapp.repositories.BookRepository;
+import kg.alatoo.springwebapp.domain.repositories.AuthorRepository;
+import kg.alatoo.springwebapp.domain.repositories.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
 
 @Component
 public class InitData implements CommandLineRunner {
 
-    private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     public InitData(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
@@ -22,7 +20,7 @@ public class InitData implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Book book = new Book("Spring Framework", "5434354135");
         Author author = new Author("Almambet", "Totoev");
 

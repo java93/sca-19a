@@ -1,52 +1,28 @@
 package kg.alatoo.springwebapp.controllers;
 
-import kg.alatoo.springwebapp.domain.Author;
-import kg.alatoo.springwebapp.domain.Book;
-import kg.alatoo.springwebapp.repositories.AuthorRepository;
-import kg.alatoo.springwebapp.repositories.BookRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
 public class MainController {
 
-    private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
-
-    public MainController(BookRepository bookRepository, AuthorRepository authorRepository) {
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
+    @GetMapping({"","index"})
+    public String home(Model model) {
+        model.addAttribute("name", "Zhibek");
+        return "home";
     }
-
-    //    @RequestMapping(method = RequestMethod.GET)
-    @GetMapping
-    public String hello() {
-        return "Hello World!";
-    }
-
-    @GetMapping("bye")
-    public String goodBye() {
-        return "Good Bye!";
-    }
-
-    @GetMapping("addbook")
-    public String addBook() {
-        Book databaseBook = new Book("Database", "125434754");
-        System.out.println(databaseBook);
-        bookRepository.save(databaseBook);
-        System.out.println(databaseBook);
-
-        return "Book added: " + databaseBook.toString();
-    }
-
     @GetMapping("books")
-    public Iterable<Book> getBooks() {
-        return bookRepository.findAll();
+    public String books(Model model) {
+        List<String> books = new ArrayList<>();
+        books.add("Database");
+        books.add("Spring");
+        books.add("Com Network");
+        books.add("Thymeleaf");
+        model.addAttribute("books",books);
+        return "books";
     }
-
-    @GetMapping("authors")
-    public Iterable<Author> getAuthors() {
-        return authorRepository.findAll();
-    }
-
 }

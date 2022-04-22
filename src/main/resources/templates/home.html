@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+<h1 th:text="#{main.welcome}">Welcome to my WebPage</h1>
+<h3 th:text="'Hello ' + ${name}">Hello Albina</h3>
+<h3 th:text="#{main.hello('Anarbek')}">Hello Albina</h3>
+<h3 th:text="#{main.hello(${name})}">Hello Albina</h3>
+</body>
+</html>

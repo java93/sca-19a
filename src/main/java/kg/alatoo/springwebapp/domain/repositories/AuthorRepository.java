@@ -1,4 +1,4 @@
-package kg.alatoo.springwebapp.repositories;
+package kg.alatoo.springwebapp.domain.repositories;
 
 import kg.alatoo.springwebapp.domain.Author;
 import org.springframework.data.repository.CrudRepository;
