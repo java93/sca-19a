@@ -31,4 +31,7 @@ public class BookService {
     }
 
 
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
 }
