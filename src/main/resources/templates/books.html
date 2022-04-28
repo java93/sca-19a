@@ -275,7 +275,7 @@
                         <h6 th:if="${addedBook.id}" th:text="'Book added: '+ ${addedBook.title + ' ' + addedBook.isbn}">Author: Firstname Lastname</h6>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Book</span></a>
                         <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
                     </div>
                 </div>
@@ -296,18 +296,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="book:${books}">
+                <tr th:each="book:${books}" th:object="${book}">
                     <td>
 							<span class="custom-checkbox">
 								<input type="checkbox" id="checkbox1" name="options[]" value="1">
 								<label for="checkbox1"></label>
 							</span>
                     </td>
-                    <td th:attr="onclick=|window.location='authors/${book.id}'|" th:text="${book.id}">5</td>
-                    <td th:attr="onclick=|window.location='authors/${book.id}'|" th:text="${book.title}">Name of Book</td>
-                    <td th:attr="onclick=|window.location='authors/${book.id}'|" th:text="${book.isbn}">isbn of book</td>
+                    <td th:attr="onclick=|window.location='authors/${book.id}'|" th:text="*{id}">5</td>
+                    <td th:attr="onclick=|window.location='authors/${book.id}'|" th:text="*{title}">Name of Book</td>
+                    <td th:attr="onclick=|window.location='authors/${book.id}'|" th:text="*{isbn}">isbn of book</td>
                     <td>
-                        <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                        <a href="#editEmployeeModal" class="edit" data-toggle="modal" th:attr="data-bookid=*{id}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                         <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                     </td>
                 </tr>
@@ -397,9 +397,9 @@
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="post" th:action="@{/addbook}" th:object="${newBook}">
+            <form th:action="@{/addbook}" method="post"  th:object="${newBook}">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Employee</h4>
+                    <h4 class="modal-title">Add Book</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -425,27 +425,20 @@
 <div id="editEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form th:action="@{/addbook}" th:method="post">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Employee</h4>
+                    <h4 class="modal-title">Edit Book</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <input id="editId" th:name="id" type="hidden" class="form-control" value="test" required>
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" required>
+                        <label>Title</label>
+                        <input id="editTitle" th:name="title" type="text" class="form-control" value="test" required>
                     </div>
                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <textarea class="form-control" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="text" class="form-control" required>
+                        <label>ISBN</label>
+                        <input id="editIsbn" th:name="isbn" type="number" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -477,5 +470,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#editEmployeeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var bookId = button.data('bookid') // Extract info from data-bookid attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+        $.get("api/getbook/"+bookId,function (data) {
+            $('#editTitle').val(data.title);
+            $('#editId').val(data.id);
+            $('#editIsbn').val(data.isbn);
+        });
+
+
+    })
+</script>
 </body>
 </html>

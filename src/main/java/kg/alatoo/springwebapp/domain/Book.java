@@ -69,4 +69,8 @@ public class Book {
                 ", isbn='" + isbn + '\'' +
                 '}';
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

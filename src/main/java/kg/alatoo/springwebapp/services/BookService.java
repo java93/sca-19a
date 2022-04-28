@@ -32,6 +32,7 @@ public class BookService {
 
 
     public Book saveBook(Book book) {
+        authorRepository.saveAll(book.getAuthors());
         return bookRepository.save(book);
     }
 }

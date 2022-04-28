@@ -7,9 +7,9 @@ import kg.alatoo.springwebapp.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.context.IContext;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -60,11 +60,15 @@ public class MainController {
     }
 
     @PostMapping("addbook")
-    public String addBook(
+    public String addBook(@RequestBody MultiValueMap<String,String> requestBody,
             @ModelAttribute Book addedBook,
             RedirectAttributes redirectAttributes
             ) {
+
+        System.out.println(requestBody);
+        System.out.println("before save" + addedBook);
         addedBook = bookService.saveBook(addedBook);
+        System.out.println("after save" + addedBook);
         redirectAttributes.addFlashAttribute("addedBook",addedBook);
         return "redirect:books";
     }
