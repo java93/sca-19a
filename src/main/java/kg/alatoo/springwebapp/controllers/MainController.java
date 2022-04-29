@@ -29,6 +29,11 @@ public class MainController {
         return "home";
     }
 
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
     @GetMapping({"books", "books/{authorId}"})
     public String books(
             Model model,
